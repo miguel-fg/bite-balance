@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  name        String
+  dateOfBirth DateTime
+  height      Decimal
+  weight      Decimal
+  bmi         Decimal
+  gender      String?
+  goal        Goal?
+  meals       Meal[]
+
+  @@map("users")
+}
+
+model Goal {
+  id                  Int      @id @default(autoincrement())
+  targetWeight        Decimal?
+  targetBMI           Decimal?
+  targetDailyCalories Decimal?
+  user                User     @relation(fields: [userId], references: [id])
+  userId              Int      @unique
+
+  @@map("goals")
+}
+
+model Meal {
+  id            Int         @id @default(autoincrement())
+  name          String
+  type          MealType    @default(OTHER)
+  servingValue  Decimal
+  servingUnit   ServingUnit @default(GRAMS)
+  calories      Decimal
+  protein       Decimal
+  carbohydrates Decimal
+  fat           Decimal
+  date          DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+
+  @@index(fields: [date, userId])
+  @@map("meals")
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+  OTHER
+}
+
+enum ServingUnit {
+  GRAMS
+  MILLIGRAMS
+  CUPS
+  LITERS
+  MILLILITERS
+  OUNCES
+  TEASPOONS
+  TABLESPOONS
+  PIECES
+  SERVINGS
+}
