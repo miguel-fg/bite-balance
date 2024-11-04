@@ -1,5 +1,5 @@
 <template>
-  <div class="flex px-16 md:px-20 lg:px-48 justify-between items-center py-1 bg-primary-800">
+  <div class="flex px-4 md:px-16 lg:px-48 justify-between items-center py-1 bg-primary-800">
     <RouterLink to="/">
       <div class="flex items-center gap-1">
         <img src="/bb_logo.png" alt="Bite Balance logo" class="w-8 h-8 md:w-10 md:h-10">
@@ -7,7 +7,7 @@
       </div>
     </RouterLink>
     <div class="hidden md:flex">
-      <nav class="font-HM font-light underline text-white">
+      <nav class="font-HM font-light text-white">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about" class="ml-10">About</RouterLink>
         <RouterLink to="/dashboard" class="ml-10">Dashboard</RouterLink>
@@ -18,25 +18,31 @@
       </div>
     </div>
     <div class="flex md:hidden">
-      <button>
-        <MenuIcon class="w-6 h-5 overflow-visible"/>
+      <button @click="toggleNav">
+        <img v-if="!isOpen" src="../assets/icons/menu 1.svg" alt="Menu icon" class="w-10 h-8" />
+        <img v-else src="../assets/icons/close 1.svg" alt="Menu icon" class="w-10 h-8" />
       </button>
     </div>
+  </div>
+  <div v-if="isOpen" class="flex flex-col px-4 md:hidden bg-primary-800">
+      <nav class="font-HM font-light text-white">
+        <RouterLink to="/" class="block mt-8 pb-4 border-b-2 border-ui-gray-500">Home</RouterLink>
+        <RouterLink to="/about" class="block mt-4 pb-4 border-b-2 border-ui-gray-500">About</RouterLink>
+        <RouterLink to="/dashboard" class="block mt-4 pb-5 border-b-2 border-ui-gray-500">Dashboard</RouterLink>
+      </nav>
+      <div class="flex flex-col w-32 gap-5 mt-5 mb-5">
+        <RouterLink to="/login"><span class="flex justify-center py-2 rounded-md bg-white font-HM font-semibold text-body text-primary-900">Login</span></RouterLink>
+        <RouterLink to="/signup"><span class="flex justify-center py-2 rounded-md bg-transparent border-white border-2 font-HM font-semibold text-body text-white">Sign up</span></RouterLink>
+      </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import MenuIcon from '../assets/icons/menu 1.svg'
-  import CloseIcon from '../assets/icons/close 1.svg'
   import { ref } from 'vue'
 
   const isOpen = ref(false);
 
-  const openNav = () => {
-    isOpen.value = true;
-  }
-
-  const closeNav = () => {
-    isOpen.value = false;
+  const toggleNav = () => {
+    isOpen.value = !isOpen.value;
   }
 </script>
