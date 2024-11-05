@@ -2,3 +2,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    background-color: #EFF2F1;
+}
+
+@layer components {
+    /* For buttons aligned horizontally */
+    .btn {
+        @apply px-4 py-2 rounded-md;
+        @apply font-HM font-semibold text-body;
+    }
+
+    /* For buttons aligned vertically */
+    .btn-fixed-width {
+        @apply w-[132px] py-2 rounded-md;
+        @apply font-HM font-semibold text-body;
+    }
+}
