@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <label :for="`${props.label}`" class="capitalize font-HM font-light text-body text-ui-gray-900">{{props.label}}</label>
-    <div class="flex items-center px-1 h-11 rounded-md shadow-md bg-white">
+    <div class="flex items-center px-1 h-10 rounded-md shadow-md bg-white">
       <div class="mr-1.5 pr-1.5 border-r border-ui-gray-200">
         <img v-if="imgSrc" :src="imgSrc" :alt="`Icon for the ${props.label} input`" class="w-6 h-6">
       </div>
