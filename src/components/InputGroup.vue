@@ -27,15 +27,19 @@
 </template>
 
 <script setup lang="ts">
+import { InputStatus } from "../types/InputStatus";
+
 interface formProps {
   label: string;
   icon: string;
   placeholder: string;
   hiddenValue?: boolean;
+  status: InputStatus;
 }
 
 const props = withDefaults(defineProps<formProps>(), {
   hiddenValue: false,
+  status: "NORMAL",
 });
 
 const imgSrc = new URL(`../assets/icons/${props.icon}.svg`, import.meta.url)
