@@ -15,6 +15,7 @@
         />
       </div>
       <input
+        v-model="textValue"
         :type="props.hiddenValue ? 'password' : 'text'"
         :id="`${props.label}`"
         :placeholder="`${props.placeholder}`"
@@ -39,4 +40,6 @@ const props = withDefaults(defineProps<formProps>(), {
 
 const imgSrc = new URL(`../assets/icons/${props.icon}.svg`, import.meta.url)
   .href;
+
+const textValue = defineModel({ default: "" });
 </script>
