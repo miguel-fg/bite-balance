@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col gap-3">
-    <InputGroup v-model="username" label="name" icon="user" placeholder="Jane Doe" :status="usernameStatus"
-      :error-msg="usernameError" />
-    <InputGroup v-model="email" label="email" icon="email" placeholder="yummy@food.com" :status="emailStatus"
-      :error-msg="emailError" />
-    <InputGroup v-model="password" label="password" icon="lock" placeholder="********" :hiddenValue="true"
-      :status="passwordStatus" :error-msg="passwordError" />
-    <InputGroup v-model="confirmed" label="confirm password" icon="lock" placeholder="********" :hiddenValue="true"
-      :status="confirmedStatus" :error-msg="confirmedError" />
+    <InputGroup v-model="username" input-id="username" label="name" icon="user" placeholder="Jane Doe"
+      :status="usernameStatus" :error-msg="usernameError" />
+    <InputGroup v-model="email" input-id="email" label="email" icon="email" placeholder="yummy@food.com"
+      :status="emailStatus" :error-msg="emailError" />
+    <InputGroup v-model="password" input-id="password" label="password" icon="lock" placeholder="********"
+      :hiddenValue="true" :status="passwordStatus" :error-msg="passwordError" />
+    <InputGroup v-model="confirmed" input-id="confirmed" label="confirm password" icon="lock" placeholder="********"
+      :hiddenValue="true" :status="confirmedStatus" :error-msg="confirmedError" />
   </div>
   <button @click="validateForm" class="btn-fixed-width mt-6 shadow-md bg-primary-500">
     Sign up

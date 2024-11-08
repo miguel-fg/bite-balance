@@ -6,6 +6,7 @@ describe("form input group", () => {
   it("renders the label correctly", () => {
     const wrapper = mount(InputGroup, {
       props: {
+        inputId: "email",
         label: "email",
         icon: "email",
         placeholder: "Enter your email",
@@ -20,6 +21,7 @@ describe("form input group", () => {
   it("renders the group icon correctly", () => {
     const wrapper = mount(InputGroup, {
       props: {
+        inputId: "email",
         label: "email",
         icon: "email",
         placeholder: "Enter your email",
@@ -35,6 +37,7 @@ describe("form input group", () => {
   it("displays an error message when status is ERROR", () => {
     const wrapper = mount(InputGroup, {
       props: {
+        inputId: "email",
         label: "email",
         icon: "email",
         placeholder: "Enter your email",
@@ -49,6 +52,7 @@ describe("form input group", () => {
   it("renders the icon when status is VALID", () => {
     const wrapper = mount(InputGroup, {
       props: {
+        inputId: "email",
         label: "email",
         icon: "email",
         placeholder: "Enter your email",
@@ -64,6 +68,7 @@ describe("form input group", () => {
   it("updates the model value on input change", async () => {
     const wrapper = mount(InputGroup, {
       props: {
+        inputId: "email",
         label: "email",
         icon: "email",
         placeholder: "Enter your email",

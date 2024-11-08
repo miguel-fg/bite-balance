@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col gap-3">
-    <InputGroup v-model="email" label="email" icon="email" placeholder="yummy@food.com" :status="emailStatus"
-      :error-msg="emailError" />
-    <InputGroup v-model="password" label="password" icon="lock" placeholder="********" :hiddenValue="true"
-      :status="passwordStatus" :error-msg="passwordError" />
+    <InputGroup v-model="email" input-id="email" label="email" icon="email" placeholder="yummy@food.com"
+      :status="emailStatus" :error-msg="emailError" />
+    <InputGroup v-model="password" input-id="password" label="password" icon="lock" placeholder="********"
+      :hiddenValue="true" :status="passwordStatus" :error-msg="passwordError" />
   </div>
   <button @click="validateForm"
     class="btn-fixed-width mt-6 shadow-md bg-primary-500 focus:outline-primary-700 active:bg-primary-700 active:text-white">

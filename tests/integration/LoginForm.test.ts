@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import LoginForm from "../../src/components/forms/LoginForm.vue";
 
-describe("LoginForm", () => {
+describe("login form", () => {
   it("validates the form correctly when submit button is clicked", async () => {
     const wrapper = mount(LoginForm);
     const emailInput = wrapper.find('input[id="email"]');
