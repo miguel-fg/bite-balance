@@ -8,7 +8,8 @@ interface ValidationResult {
 }
 
 const validateField = (input: string, test: ValidTests): ValidationResult => {
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  const emailRegex =
+    /^[a-zA-Z0-9](?:[a-zA-Z0-9_-]*\.?[a-zA-Z0-9_-])*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
   const usernameRegex = /^[a-zA-Z\s]{2,}$/;
   const passwordRegex =
     /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}/;
