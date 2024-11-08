@@ -20,7 +20,7 @@ const validateField = (input: string, test: ValidTests): ValidationResult => {
       } else {
         return {
           res: "ERROR",
-          msg: "Please enter a valid email address.",
+          msg: "Please enter a valid email address",
         };
       }
     case "USERNAME":
@@ -29,7 +29,7 @@ const validateField = (input: string, test: ValidTests): ValidationResult => {
       } else {
         return {
           res: "ERROR",
-          msg: "Username must be at least 2 characters long and can only contain letters and spaces.",
+          msg: "Username must be at least 2 characters long and can only contain letters and spaces",
         };
       }
     case "PASSWORD":
@@ -43,14 +43,14 @@ const validateField = (input: string, test: ValidTests): ValidationResult => {
         if (!/(?=.*\d)/.test(input)) message += " one number,";
         if (!/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(input))
           message += " one symbol,";
-        message = message.replace(/,$/, "."); // Clean up trailing comma
+        message = message.replace(/,$/, ""); // Clean up trailing comma
         return {
           res: "ERROR",
           msg: message,
         };
       }
     default:
-      return { res: "ERROR", msg: "Invalid validation type specified." };
+      return { res: "ERROR", msg: "Invalid validation type specified" };
   }
 };
 
