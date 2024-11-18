@@ -10,7 +10,7 @@
       </h1>
       <img src="/bb_logo_dark.png" alt="Bite Balance logo" class="w-24 h-24" />
       <div class="flex flex-col gap-1">
-        <h1 class="font-HK font-regular text-subtitle text-ui-gray-900">
+        <h1 class="font-MK font-normal text-subtitle text-ui-gray-900">
           Let's get to know you better!
         </h1>
         <p class="font-HM font-light text-body text-ui-gray-700">
@@ -32,15 +32,35 @@
     </div>
 
     <!-- Summary of Onboarding user answers -->
-    <div v-else-if="currentQuestion === 5">
-      <h1>Summary</h1>
-      <p><span>Date of Birth:</span> {{ dateOfBirth }}</p>
-      <p><span>Height:</span> {{ height }}</p>
-      <p><span>Weight:</span> {{ weight }}</p>
-      <p><span>Gender:</span> {{ gender }}</p>
-      <div>
-        <button @click="prevQuestion">Back</button>
-        <button @click="$emit('closeOnboarding')">Finish</button>
+    <div v-else-if="currentQuestion === 5" class="flex flex-col gap-12">
+      <h1 class="font-MK font-normal text-subtitle text-ui-gray-900">
+        Summary
+      </h1>
+      <div
+        class="flex flex-col divide-y px-4 rounded-md font-HM font-light text-body bg-white shadow text-ui-gray-900"
+      >
+        <div class="flex justify-between py-4">
+          <span class="font-bold text-primary-700">Date of Birth:</span>
+          {{ dateOfBirth }}
+        </div>
+        <div class="flex justify-between py-4">
+          <span class="font-bold text-primary-700">Height:</span> {{ height }}
+        </div>
+        <div class="flex justify-between py-4">
+          <span class="font-bold text-primary-700">Weight:</span> {{ weight }}
+        </div>
+        <div class="flex justify-between py-4">
+          <span class="font-bold text-primary-700">Gender:</span> {{ gender }}
+        </div>
+      </div>
+      <div class="flex justify-end gap-4">
+        <button @click="prevQuestion" class="btn text-ui-gray-700">Back</button>
+        <button
+          @click="$emit('closeOnboarding')"
+          class="btn bg-primary-500 text-ui-gray-900 shadow"
+        >
+          Finish
+        </button>
       </div>
     </div>
 
