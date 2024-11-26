@@ -65,27 +65,37 @@
   import {provide} from "vue";
   import ProgressNodes from "./onboarding/ProgressNodes.vue";
   import OnboardingQuestion from "./onboarding/OnboardingQuestion.vue";
-  import {InputStatus} from "../types/InputStatus";
 
   const currentQuestion = ref(0);
   const props = defineProps < {
     visible: boolean;
   } > ();
 
-  const dateOfBirth = ref();
+  const dateOfBirth = ref("");
   const height = ref(0.0);
   const weight = ref(0.0);
   const gender = ref("");
 
-  const dobStatus = ref < InputStatus > ("NORMAL");
-  const heightStatus = ref < InputStatus > ("NORMAL");
-  const weightStatus = ref < InputStatus > ("NORMAL");
-  const genderStatus = ref < InputStatus > ("NORMAL");
+  const updateDOB = (newDOB: string) => {
+    dateOfBirth.value = newDOB;
+  };
 
-  const dobError = ref("");
-  const heightError = ref("");
-  const weightError = ref("");
-  const genderError = ref("");
+  const updateHeight = (newHeight: number) => {
+    height.value = newHeight;
+  };
+
+  const updateWeight = (newWeight: number) => {
+    weight.value = newWeight;
+  };
+
+  const updateGender = (newGender: string) => {
+    gender.value = newGender;
+  };
+
+  provide("dateOfBirth", {dateOfBirth, updateDOB});
+  provide("height", {height, updateHeight});
+  provide("weight", {weight, updateWeight});
+  provide("gender", {gender, updateGender});
 
   const nextQuestion = () => {
     currentQuestion.value =
