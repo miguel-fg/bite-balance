@@ -9,6 +9,8 @@
     </div>
     <div>
       <DateInput v-if="inputType === 'date'" />
+      <UnitInput v-else-if="inputType === 'height'" unit-set="height" />
+      <UnitInput v-else-if="inputType === 'weight'" unit-set="weight" />
       <p class="font-HM font-light text-body text-ui-gray-700">
         {{ questions[props.questionNum].subtitle }}
       </p>
@@ -23,55 +25,56 @@
 </template>
 
 <script setup lang="ts">
-  import {computed} from "vue";
-  import DateInput from "./DateInput.vue";
+import { computed } from "vue";
+import DateInput from "./DateInput.vue";
+import UnitInput from "./UnitInput.vue";
 
-  const props = defineProps < {
-    questionNum: number;
-  } > ();
+const props = defineProps<{
+  questionNum: number;
+}>();
 
-  const emit = defineEmits(["increment", "decrement"]);
+const emit = defineEmits(["increment", "decrement"]);
 
-  const goForward = () => {
-    emit("increment");
-  };
+const goForward = () => {
+  emit("increment");
+};
 
-  const goBackward = () => {
-    emit("decrement");
-  };
+const goBackward = () => {
+  emit("decrement");
+};
 
-  const questions = [
-    {
-      title: "What is your date of birth?",
-      image: "../../assets/illustrations/cake.svg",
-      input: "date",
-      subtitle:
-        "This will help Bite Balance Calculate your age for BMI and nutritional needs.",
-    },
-    {
-      title: "What is your current height?",
-      image: "../../assets/illustrations/plants.svg",
-      input: "height",
-      subtitle: "",
-    },
-    {
-      title: "What is your current weight?",
-      image: "../../assets/illustrations/scale.svg",
-      input: "weight",
-      subtitle: "",
-    },
-    {
-      title: "Would you like to share your gender?",
-      image: "../../assets/illustrations/question.svg",
-      input: "gender",
-      subtitle:
-        "This can help Bite Balance fine-tune BMI calculations based on gender-related standards.",
-    },
-  ];
+const questions = [
+  {
+    title: "What is your date of birth?",
+    image: "../../assets/illustrations/cake.svg",
+    input: "date",
+    subtitle:
+      "This will help Bite Balance Calculate your age for BMI and nutritional needs.",
+  },
+  {
+    title: "What is your current height?",
+    image: "../../assets/illustrations/plants.svg",
+    input: "height",
+    subtitle: "",
+  },
+  {
+    title: "What is your current weight?",
+    image: "../../assets/illustrations/scale.svg",
+    input: "weight",
+    subtitle: "",
+  },
+  {
+    title: "Would you like to share your gender?",
+    image: "../../assets/illustrations/question.svg",
+    input: "gender",
+    subtitle:
+      "This can help Bite Balance fine-tune BMI calculations based on gender-related standards.",
+  },
+];
 
-  const imgSrc = computed(
-    () => new URL(questions[props.questionNum].image, import.meta.url).href,
-  );
+const imgSrc = computed(
+  () => new URL(questions[props.questionNum].image, import.meta.url).href,
+);
 
-  const inputType = computed(() => questions[props.questionNum].input);
+const inputType = computed(() => questions[props.questionNum].input);
 </script>

@@ -61,53 +61,53 @@
 </template>
 
 <script setup lang="ts">
-  import {ref} from "vue";
-  import {provide} from "vue";
-  import ProgressNodes from "./onboarding/ProgressNodes.vue";
-  import OnboardingQuestion from "./onboarding/OnboardingQuestion.vue";
+import { ref } from "vue";
+import { provide } from "vue";
+import ProgressNodes from "./onboarding/ProgressNodes.vue";
+import OnboardingQuestion from "./onboarding/OnboardingQuestion.vue";
 
-  const currentQuestion = ref(0);
-  const props = defineProps < {
-    visible: boolean;
-  } > ();
+const currentQuestion = ref(0);
+const props = defineProps<{
+  visible: boolean;
+}>();
 
-  const dateOfBirth = ref("");
-  const height = ref(0.0);
-  const weight = ref(0.0);
-  const gender = ref("");
+const dateOfBirth = ref("");
+const height = ref("");
+const weight = ref("");
+const gender = ref("");
 
-  const updateDOB = (newDOB: string) => {
-    dateOfBirth.value = newDOB;
-  };
+const updateDOB = (newDOB: string) => {
+  dateOfBirth.value = newDOB;
+};
 
-  const updateHeight = (newHeight: number) => {
-    height.value = newHeight;
-  };
+const updateHeight = (newHeight: string) => {
+  height.value = newHeight;
+};
 
-  const updateWeight = (newWeight: number) => {
-    weight.value = newWeight;
-  };
+const updateWeight = (newWeight: string) => {
+  weight.value = newWeight;
+};
 
-  const updateGender = (newGender: string) => {
-    gender.value = newGender;
-  };
+const updateGender = (newGender: string) => {
+  gender.value = newGender;
+};
 
-  provide("dateOfBirth", {dateOfBirth, updateDOB});
-  provide("height", {height, updateHeight});
-  provide("weight", {weight, updateWeight});
-  provide("gender", {gender, updateGender});
+provide("dateOfBirth", { dateOfBirth, updateDOB });
+provide("height", { height, updateHeight });
+provide("weight", { weight, updateWeight });
+provide("gender", { gender, updateGender });
 
-  const nextQuestion = () => {
-    currentQuestion.value =
-      currentQuestion.value < 5
-        ? currentQuestion.value + 1
-        : currentQuestion.value;
-  };
+const nextQuestion = () => {
+  currentQuestion.value =
+    currentQuestion.value < 5
+      ? currentQuestion.value + 1
+      : currentQuestion.value;
+};
 
-  const prevQuestion = () => {
-    currentQuestion.value =
-      currentQuestion.value > 0
-        ? currentQuestion.value - 1
-        : currentQuestion.value;
-  };
+const prevQuestion = () => {
+  currentQuestion.value =
+    currentQuestion.value > 0
+      ? currentQuestion.value - 1
+      : currentQuestion.value;
+};
 </script>
