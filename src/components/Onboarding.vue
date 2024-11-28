@@ -1,5 +1,8 @@
 <template>
-  <div v-if="props.visible" class="z-50 inset-0 fixed flex flex-col justify-center px-4 bg-ui-gray-100">
+  <div
+    v-if="props.visible"
+    class="z-50 inset-0 fixed flex flex-col justify-center px-4 bg-ui-gray-100"
+  >
     <!-- Welcome to Onboarding quiz -->
     <div v-if="currentQuestion === 0" class="flex flex-col gap-12">
       <h1 class="font-MT font-bold text-title text-ui-gray-900">
@@ -19,7 +22,10 @@
         <button @click="$emit('closeOnboarding')" class="btn text-ui-gray-700">
           Skip
         </button>
-        <button @click="nextQuestion" class="btn bg-primary-500 text-ui-gray-900 shadow">
+        <button
+          @click="nextQuestion"
+          class="btn bg-primary-500 text-ui-gray-900 shadow"
+        >
           Get Started
         </button>
       </div>
@@ -30,16 +36,20 @@
       <h1 class="font-MK font-normal text-subtitle text-ui-gray-900">
         Summary
       </h1>
-      <div class="flex flex-col divide-y px-4 rounded-md font-HM font-light text-body bg-white shadow text-ui-gray-900">
+      <div
+        class="flex flex-col divide-y px-4 rounded-md font-HM font-light text-body bg-white shadow text-ui-gray-900"
+      >
         <div class="flex justify-between py-4">
           <span class="font-bold text-primary-700">Date of Birth:</span>
           {{ dateOfBirth }}
         </div>
         <div class="flex justify-between py-4">
-          <span class="font-bold text-primary-700">Height:</span> {{ height }}
+          <span class="font-bold text-primary-700">Height:</span>
+          {{ `${height.value} ${height.unit}` }}
         </div>
         <div class="flex justify-between py-4">
-          <span class="font-bold text-primary-700">Weight:</span> {{ weight }}
+          <span class="font-bold text-primary-700">Weight:</span>
+          {{ `${weight.value} ${weight.unit}` }}
         </div>
         <div class="flex justify-between py-4">
           <span class="font-bold text-primary-700">Gender:</span> {{ gender }}
@@ -47,15 +57,22 @@
       </div>
       <div class="flex justify-end gap-4">
         <button @click="prevQuestion" class="btn text-ui-gray-700">Back</button>
-        <button @click="$emit('closeOnboarding')" class="btn bg-primary-500 text-ui-gray-900 shadow">
+        <button
+          @click="$emit('closeOnboarding')"
+          class="btn bg-primary-500 text-ui-gray-900 shadow"
+        >
           Finish
         </button>
       </div>
     </div>
 
     <!-- Onboarding questions -->
-    <OnboardingQuestion v-else :question-num="currentQuestion - 1" @increment="nextQuestion"
-      @decrement="prevQuestion" />
+    <OnboardingQuestion
+      v-else
+      :question-num="currentQuestion - 1"
+      @increment="nextQuestion"
+      @decrement="prevQuestion"
+    />
     <ProgressNodes :active="currentQuestion - 1" class="mt-24" />
   </div>
 </template>
@@ -72,19 +89,19 @@ const props = defineProps<{
 }>();
 
 const dateOfBirth = ref("");
-const height = ref("");
-const weight = ref("");
+const height = ref({ value: 0, unit: "m" });
+const weight = ref({ value: 0, unit: "kg" });
 const gender = ref("");
 
 const updateDOB = (newDOB: string) => {
   dateOfBirth.value = newDOB;
 };
 
-const updateHeight = (newHeight: string) => {
+const updateHeight = (newHeight: { value: number; unit: "string" }) => {
   height.value = newHeight;
 };
 
-const updateWeight = (newWeight: string) => {
+const updateWeight = (newWeight: { value: number; unit: "string" }) => {
   weight.value = newWeight;
 };
 
