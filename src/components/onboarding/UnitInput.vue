@@ -1,6 +1,8 @@
 <template>
   <div class="flex gap-4">
-    <div class="flex items-center px-1 mb-1 h-10 rounded-md shadow-md bg-white">
+    <div
+      class="flex w-full items-center px-1 mb-1 h-10 rounded-md shadow-md bg-white"
+    >
       <div class="mr-1.5 pr-1.5 border-r border-ui-gray-200">
         <img
           src="../../assets/icons/user.svg"
@@ -11,6 +13,9 @@
       <input
         :value="numericValue"
         @change="updateNumericValue"
+        type="number"
+        min="0.1"
+        max="999.9"
         class="w-full font-HM font-light text-body text-ui-gray-900 focus:outline-primary-500"
       />
     </div>
