@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="props.visible"
-    class="z-50 inset-0 fixed flex flex-col justify-center px-4 bg-ui-gray-100"
-  >
+  <div v-if="props.visible" class="z-50 inset-0 fixed flex flex-col justify-center px-4 bg-ui-gray-100">
     <!-- Welcome to Onboarding quiz -->
     <div v-if="currentQuestion === 0" class="flex flex-col gap-12">
       <h1 class="font-MT font-bold text-title text-ui-gray-900">
@@ -22,10 +19,7 @@
         <button @click="$emit('closeOnboarding')" class="btn text-ui-gray-700">
           Skip
         </button>
-        <button
-          @click="nextQuestion"
-          class="btn bg-primary-500 text-ui-gray-900 shadow"
-        >
+        <button @click="nextQuestion" class="btn bg-primary-500 text-ui-gray-900 shadow">
           Get Started
         </button>
       </div>
@@ -38,63 +32,41 @@
       </h1>
       <div>
         <div
-          class="flex flex-col divide-y px-4 rounded-md font-HM font-light text-body bg-white shadow text-ui-gray-900"
-        >
+          class="flex flex-col divide-y px-4 rounded-md font-HM font-light text-body bg-white shadow text-ui-gray-900">
           <div class="flex justify-between py-4">
-            <span
-              class="font-bold"
-              :class="invalidDOB ? 'text-danger-500' : 'text-primary-700'"
-              >Date of Birth:</span
-            >
+            <span class="font-bold" :class="invalidDOB ? 'text-danger-500' : 'text-primary-700'">Date of Birth:</span>
             {{ dateOfBirth }}
           </div>
           <div class="flex justify-between py-4">
-            <span
-              class="font-bold"
-              :class="invalidHeight ? 'text-danger-500' : 'text-primary-700'"
-              >Height:</span
-            >
+            <span class="font-bold" :class="invalidHeight ? 'text-danger-500' : 'text-primary-700'">Height:</span>
             {{ `${height.value} ${height.unit}` }}
           </div>
           <div class="flex justify-between py-4">
-            <span
-              class="font-bold"
-              :class="invalidWeight ? 'text-danger-500' : 'text-primary-700'"
-              >Weight:</span
-            >
+            <span class="font-bold" :class="invalidWeight ? 'text-danger-500' : 'text-primary-700'">Weight:</span>
             {{ `${weight.value} ${weight.unit}` }}
           </div>
           <div class="flex justify-between py-4">
             <span class="font-bold text-primary-700">Gender:</span> {{ gender }}
           </div>
         </div>
-        <p
-          v-if="!answersValid"
-          class="mt-1 font-HM font-light text-body text-danger-500"
-        >
+        <p v-if="!answersValid" class="mt-1 font-HM font-light text-body text-danger-500">
           Some of your answers are not valid.
         </p>
       </div>
       <div class="flex justify-end gap-4">
         <button @click="prevQuestion" class="btn text-ui-gray-700">Back</button>
-        <button
-          @click="$emit('closeOnboarding')"
-          :disabled="!answersValid"
-          class="btn bg-primary-500 text-ui-gray-900 shadow"
-          :class="!answersValid ? 'bg-primary-200 text-ui-gray-500' : ''"
-        >
+        <button @click="$emit('closeOnboarding')" :disabled="!answersValid" class="btn shadow" :class="!answersValid
+            ? 'bg-primary-200 text-ui-gray-500'
+            : 'bg-primary-500 text-ui-gray-900'
+          ">
           Finish
         </button>
       </div>
     </div>
 
     <!-- Onboarding questions -->
-    <OnboardingQuestion
-      v-else
-      :question-num="currentQuestion - 1"
-      @increment="nextQuestion"
-      @decrement="prevQuestion"
-    />
+    <OnboardingQuestion v-else :question-num="currentQuestion - 1" @increment="nextQuestion"
+      @decrement="prevQuestion" />
     <ProgressNodes :active="currentQuestion - 1" class="mt-24" />
   </div>
 </template>
