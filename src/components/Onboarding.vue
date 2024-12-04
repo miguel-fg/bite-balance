@@ -27,12 +27,14 @@
         </div>
         <div class="flex justify-end gap-4">
           <button
+            data-test-id="skip-button"
             @click="$emit('closeOnboarding')"
             class="btn text-ui-gray-700"
           >
             Skip
           </button>
           <button
+            data-test-id="get-started-button"
             @click="nextQuestion"
             class="btn bg-primary-500 text-ui-gray-900 shadow"
           >
@@ -91,6 +93,7 @@
             Back
           </button>
           <button
+            data-test-id="finish-button"
             @click="$emit('closeOnboarding')"
             :disabled="!answersValid"
             class="btn shadow"
@@ -186,4 +189,11 @@ const prevQuestion = () => {
 const answersValid = computed(
   () => !invalidDOB.value && !invalidHeight.value && !invalidWeight.value,
 );
+
+defineExpose({
+  currentQuestion,
+  invalidDOB,
+  invalidHeight,
+  invalidWeight,
+});
 </script>
