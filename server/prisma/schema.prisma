@@ -18,6 +18,8 @@ model User {
   email             String?     @unique
   hashedPassword    String?
   salt              String?
+  provider          String?
+  providerId        String?     @unique
   dateOfBirth       DateTime?
   weight            Float?
   height            Float?
