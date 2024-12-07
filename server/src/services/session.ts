@@ -71,7 +71,8 @@ export async function validateSessionToken(
   return { session, user };
 }
 
-export async function invalidateSession(sessionId: string): Promise<void> {
+export async function invalidateSession(token: string): Promise<void> {
+  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   await prisma.session.delete({ where: { id: sessionId } });
 }
 

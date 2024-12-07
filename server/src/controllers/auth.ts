@@ -15,10 +15,12 @@ import {
 } from "../services/session";
 
 export async function register(req: Request, res: Response): Promise<void> {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
-  if (!email || !password) {
-    res.status(400).json({ message: "Email and password are required" });
+  if (!username || !email || !password) {
+    res
+      .status(400)
+      .json({ message: "Username, email, and password are required" });
     return;
   }
 
@@ -41,6 +43,7 @@ export async function register(req: Request, res: Response): Promise<void> {
 
     const newUser = await prisma.user.create({
       data: {
+        username,
         email,
         hashedPassword,
         salt,
