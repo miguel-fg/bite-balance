@@ -1,4 +1,5 @@
 import { createMemoryHistory, createRouter } from "vue-router";
+import { useAuthStore } from "./stores/auth";
 
 import Home from "./views/Home.vue";
 import About from "./views/About.vue";
@@ -9,18 +10,56 @@ import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 
 const routes = [
-  { path: "/", component: Home },
-  { path: "/about", component: About },
-  { path: "/dashboard", component: Dashboard },
-  { path: "/metrics", component: Metrics },
-  { path: "/profile", component: Profile },
-  { path: "/login", component: Login },
-  { path: "/signup", component: Signup },
+  { path: "/", name: "Home", component: Home },
+  { path: "/about", name: "About", component: About },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/metrics",
+    name: "Metrics",
+    component: Metrics,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+    meta: { requiresUnauthenticated: true },
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: Signup,
+    meta: { requiresUnauthenticated: true },
+  },
 ];
 
 const router = createRouter({
   history: createMemoryHistory(),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+
+  // Redirect authenticated users away from login / sign up
+  if (to.meta.requiresUnauthenticated && authStore.isAuthenticated) {
+    next("/dashboard");
+  } else if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next("/login");
+  } else {
+    next();
+  }
 });
 
 export default router;
