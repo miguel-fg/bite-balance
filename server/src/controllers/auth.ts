@@ -9,8 +9,9 @@ import {
 import {
   generateSessionToken,
   createSession,
-  validateSessionToken,
   invalidateSession,
+  setSessionTokenCookie,
+  deleteSessionTokenCookie,
 } from "../services/session";
 
 export async function register(req: Request, res: Response): Promise<void> {
@@ -49,11 +50,10 @@ export async function register(req: Request, res: Response): Promise<void> {
     const sessionToken = generateSessionToken();
 
     const session = await createSession(sessionToken, newUser.id);
+    setSessionTokenCookie(res, sessionToken, session.expiresAt);
 
     res.status(201).json({
       message: "Registration successful",
-      user: { id: newUser.id, email: newUser.email },
-      session: { token: session.id, expires: session.expiresAt },
     });
   } catch (error) {
     console.error(error);
@@ -88,11 +88,10 @@ export async function login(req: Request, res: Response): Promise<void> {
 
     const sessionToken = generateSessionToken();
     const session = await createSession(sessionToken, user.id);
+    setSessionTokenCookie(res, sessionToken, session.expiresAt);
 
     res.status(200).json({
       message: "Login successful",
-      user: { id: user.id, email: user.email },
-      session: { token: session.id, expires: session.expiresAt },
     });
   } catch (error) {
     console.error(error);
@@ -100,4 +99,20 @@ export async function login(req: Request, res: Response): Promise<void> {
   }
 }
 
-export async function logout(req: Request, res: Response) { }
+export async function logout(req: Request, res: Response) {
+  const sessionToken = req.cookies.session;
+
+  if (!sessionToken) {
+    res.status(400).json({ message: "No session token found" });
+    return;
+  }
+
+  try {
+    await invalidateSession(sessionToken);
+    deleteSessionTokenCookie(res);
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}

@@ -4,6 +4,7 @@ import {
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { User, Session } from "@prisma/client";
+import { Response } from "express";
 import prisma from "../services/prisma";
 
 export function generateSessionToken(): string {
@@ -72,6 +73,44 @@ export async function validateSessionToken(
 
 export async function invalidateSession(sessionId: string): Promise<void> {
   await prisma.session.delete({ where: { id: sessionId } });
+}
+
+export function setSessionTokenCookie(
+  res: Response,
+  token: string,
+  expiresAt: Date,
+) {
+  const isProd = process.env.NODE_ENV === "production";
+
+  const cookieOptions = [
+    `session=${token}`,
+    `HttpOnly`,
+    `SameSite=Lax`,
+    `Expires=${expiresAt.toUTCString()}`,
+    `Path=/`,
+    isProd ? `Secure` : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
+
+  res.setHeader("Set-Cookie", cookieOptions);
+}
+
+export function deleteSessionTokenCookie(res: Response) {
+  const isProd = process.env.NODE_ENV === "production";
+
+  const cookieOptions = [
+    `session=`,
+    `HttpOnly`,
+    `SameSite=Lax`,
+    `Max-Age=0`, //Expire immediately
+    `Path=/`,
+    isProd ? `Secure` : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
+
+  res.setHeader("Set-Cookie", cookieOptions);
 }
 
 export type SessionValidationResult =
