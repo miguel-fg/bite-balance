@@ -113,7 +113,7 @@ export async function validateGitHubAuthCode(req: Request, res: Response) {
 
     setSessionTokenCookie(res, sessionToken, session.expiresAt);
 
-    res.redirect("http://localhost:5173");
+    res.redirect("http://localhost:5173/dashboard");
   } catch (error) {
     if (error instanceof OAuth2RequestError) {
       res.status(400).json({ message: "Invalid authorization code" });
@@ -123,6 +123,7 @@ export async function validateGitHubAuthCode(req: Request, res: Response) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
+    res.redirect("http://localhost:5173");
   }
 }
 
@@ -151,4 +152,4 @@ export function redirectGoogle(req: Request, res: Response) {
   res.redirect(url.href);
 }
 
-export function validateGoogleAuthCode(req: Request, res: Response) {}
+export function validateGoogleAuthCode(req: Request, res: Response) { }

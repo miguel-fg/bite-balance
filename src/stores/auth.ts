@@ -5,6 +5,7 @@ import axiosInstance from "../scripts/axiosConfig";
 
 export const useAuthStore = defineStore("auth", () => {
   const isAuthenticated = ref(false);
+  const isInitialized = ref(false);
   const user = ref<{ id: number; email: string } | null>(null);
   const router = useRouter();
 
@@ -16,6 +17,8 @@ export const useAuthStore = defineStore("auth", () => {
     } catch (error) {
       user.value = null;
       isAuthenticated.value = false;
+    } finally {
+      isInitialized.value = true;
     }
   };
 
@@ -48,5 +51,5 @@ export const useAuthStore = defineStore("auth", () => {
     router.push("/login");
   };
 
-  return { isAuthenticated, fetchUser, signup, login, logout };
+  return { isAuthenticated, isInitialized, fetchUser, signup, login, logout };
 });

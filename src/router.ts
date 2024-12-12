@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 import { useAuthStore } from "./stores/auth";
 
 import Home from "./views/Home.vue";
@@ -45,12 +45,16 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 });
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
+
+  if (!authStore.isInitialized) {
+    await authStore.fetchUser();
+  }
 
   // Redirect authenticated users away from login / sign up
   if (to.meta.requiresUnauthenticated && authStore.isAuthenticated) {
