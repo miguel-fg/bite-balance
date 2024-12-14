@@ -133,10 +133,10 @@ export function redirectGoogle(req: Request, res: Response) {
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
 
-  const scopes = ["profile"];
+  const scopes = ["email", "profile"];
   const url = google.createAuthorizationURL(state, codeVerifier, scopes);
 
-  const cookieOptions = [
+  const stateCookie = [
     `state=${state}`,
     `HttpOnly`,
     `SameSite=Lax`,
@@ -147,9 +147,94 @@ export function redirectGoogle(req: Request, res: Response) {
     .filter(Boolean)
     .join("; ");
 
-  res.setHeader("Set-Cookie", cookieOptions);
+  const codeVerifierCookie = [
+    `codeVerifier=${codeVerifier}`,
+    `HttpOnly`,
+    `SameSite=Lax`,
+    `Max-Age=${60 * 10}`,
+    `Path=/`,
+    isProd ? `Secure` : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
+
+  res.setHeader("Set-Cookie", [stateCookie, codeVerifierCookie]);
 
   res.redirect(url.href);
 }
 
-export function validateGoogleAuthCode(req: Request, res: Response) { }
+export async function validateGoogleAuthCode(req: Request, res: Response) {
+  interface GoogleUserProfile {
+    id: string;
+    email: string;
+    name: string;
+    picture: string;
+  }
+
+  const { code, state } = req.query;
+
+  const savedState = req.cookies.state;
+  const codeVerifier = req.cookies.codeVerifier;
+
+  console.log("Saved state: ", savedState);
+  console.log("Code verifier: ", codeVerifier);
+
+  if (!codeVerifier || !savedState) {
+    res.status(400).json({ message: "No code verifier or state" });
+    return;
+  }
+
+  if (state !== savedState) {
+    res.status(400).json({ message: "Invalid state" });
+    return;
+  }
+
+  try {
+    const tokens = await google.validateAuthorizationCode(
+      String(code),
+      codeVerifier,
+    );
+    const accessToken = tokens.accessToken();
+
+    const userResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v1/userinfo",
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    );
+
+    const userProfile = (await userResponse.json()) as GoogleUserProfile;
+
+    let user = await prisma.user.findUnique({
+      where: { email: userProfile.email },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          email: userProfile.email,
+          username: userProfile.name,
+          provider: "google",
+          providerId: userProfile.id,
+        },
+      });
+    }
+
+    const sessionToken = generateSessionToken();
+    const session = await createSession(sessionToken, user.id);
+
+    setSessionTokenCookie(res, sessionToken, session.expiresAt);
+
+    res.redirect("http://localhost:5173/dashboard");
+  } catch (error) {
+    if (error instanceof OAuth2RequestError) {
+      res.status(400).json({ message: "Invalid authorization code" });
+    } else if (error instanceof ArcticFetchError) {
+      res.status(500).json({ message: "Error fetching data from Google" });
+    } else {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+    res.redirect("http://localhost:5173");
+  }
+}

@@ -16,11 +16,11 @@
 </template>
 
 <script setup lang="ts">
-  const redirectToGitHub = () => {
-    window.location.href = "http://localhost:3000/api/oauth/github";
-  };
+const redirectToGitHub = () => {
+  window.location.href = "http://localhost:3000/api/oauth/github";
+};
 
-  const redirectToGoogle = () => {
-    console.log("I don't work yet!");
-  };
+const redirectToGoogle = () => {
+  window.location.href = "http://localhost:3000/api/oauth/google";
+};
 </script>
