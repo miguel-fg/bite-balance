@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useRouter } from "vue-router";
 import { ref } from "vue";
 import axiosInstance from "../scripts/axiosConfig";
 
@@ -7,7 +6,6 @@ export const useAuthStore = defineStore("auth", () => {
   const isAuthenticated = ref(false);
   const isInitialized = ref(false);
   const user = ref<{ id: number; email: string } | null>(null);
-  const router = useRouter();
 
   const fetchUser = async () => {
     try {
@@ -26,7 +24,6 @@ export const useAuthStore = defineStore("auth", () => {
     try {
       await axiosInstance.post("/auth/register", { username, email, password });
       await fetchUser();
-      router.push("/dashboard");
     } catch (error) {
       console.error("Registration failed: ", error);
       throw error;
@@ -37,7 +34,6 @@ export const useAuthStore = defineStore("auth", () => {
     try {
       await axiosInstance.post("/auth/login", { email, password });
       await fetchUser();
-      router.push("/dashboard");
     } catch (error) {
       console.error("Login failed: ", error);
       throw error;
@@ -48,8 +44,15 @@ export const useAuthStore = defineStore("auth", () => {
     await axiosInstance.post("/auth/logout");
     user.value = null;
     isAuthenticated.value = false;
-    router.push("/login");
   };
 
-  return { isAuthenticated, isInitialized, fetchUser, signup, login, logout };
+  return {
+    user,
+    isAuthenticated,
+    isInitialized,
+    fetchUser,
+    signup,
+    login,
+    logout,
+  };
 });
