@@ -9,7 +9,7 @@
     <InputGroup v-model="confirmed" input-id="confirmed" label="confirm password" icon="lock" placeholder="********"
       :hiddenValue="true" :status="confirmedStatus" :error-msg="confirmedError" />
   </div>
-  <button @click="validateForm" class="btn-fixed-width mt-6 shadow-md bg-primary-500">
+  <button @click="handleSubmit" class="btn-fixed-width mt-6 shadow-md bg-primary-500">
     Sign up
   </button>
 </template>
@@ -19,6 +19,8 @@ import InputGroup from "../InputGroup.vue";
 import { ref } from "vue";
 import { InputStatus } from "../../types/InputStatus";
 import { validateField, matchFields } from "../../scripts/forms";
+import { useAuthStore } from "../../stores/auth";
+import router from "../../router";
 
 const username = ref("");
 const email = ref("");
@@ -58,5 +60,29 @@ const validateForm = () => {
   passwordError.value = passwordMsg;
   confirmedStatus.value = confirmedRes;
   confirmedError.value = confirmedMsg;
+
+  return (
+    usernameStatus.value === "VALID" &&
+    emailStatus.value === "VALID" &&
+    passwordStatus.value === "VALID" &&
+    confirmedStatus.value === "VALID"
+  );
+};
+
+const handleSubmit = async () => {
+  const isValid = validateForm();
+  const authStore = useAuthStore();
+
+  if (isValid) {
+    console.log("FORM VALID!");
+    try {
+      await authStore.signup(username.value, email.value, password.value);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Signup failed: ", error);
+    }
+  } else {
+    console.error("FORM NOT VALID!");
+  }
 };
 </script>

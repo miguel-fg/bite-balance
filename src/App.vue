@@ -1,7 +1,3 @@
-<script setup lang="ts">
-  import NavBar from './components/NavBar.vue';
-</script>
-
 <template>
   <NavBar />
   <main>
@@ -9,6 +5,14 @@
   </main>
 </template>
 
-<style scoped>
-  
-</style>
+<script setup lang="ts">
+import { onMounted } from "vue";
+import { useAuthStore } from "./stores/auth";
+import NavBar from "./components/NavBar.vue";
+
+const authStore = useAuthStore();
+
+onMounted(() => {
+  authStore.fetchUser();
+});
+</script>
