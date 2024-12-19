@@ -5,7 +5,15 @@ import axiosInstance from "../scripts/axiosConfig";
 export const useAuthStore = defineStore("auth", () => {
   const isAuthenticated = ref(false);
   const isInitialized = ref(false);
-  const user = ref<{ id: number; email: string } | null>(null);
+  const user = ref<{
+    id: number;
+    username: string | null;
+    email: string;
+    dateOfBirth: Date | null;
+    weight: number | null;
+    height: number | null;
+    gender: string | null;
+  } | null>(null);
 
   const fetchUser = async () => {
     try {
@@ -22,8 +30,13 @@ export const useAuthStore = defineStore("auth", () => {
 
   const signup = async (username: string, email: string, password: string) => {
     try {
-      await axiosInstance.post("/auth/register", { username, email, password });
-      await fetchUser();
+      const response = await axiosInstance.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
+      user.value = response.data.user;
+      isAuthenticated.value = true;
     } catch (error) {
       console.error("Registration failed: ", error);
       throw error;
@@ -32,8 +45,12 @@ export const useAuthStore = defineStore("auth", () => {
 
   const login = async (email: string, password: string) => {
     try {
-      await axiosInstance.post("/auth/login", { email, password });
-      await fetchUser();
+      const response = await axiosInstance.post("/auth/login", {
+        email,
+        password,
+      });
+      user.value = response.data.user;
+      isAuthenticated.value = true;
     } catch (error) {
       console.error("Login failed: ", error);
       throw error;
