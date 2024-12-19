@@ -8,8 +8,18 @@ export async function getProfile(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const { id, email } = user;
-  res.status(200).json({ id, email });
+  const { id, username, email, dateOfBirth, weight, height, gender } = user;
+  res.status(200).json({
+    user: {
+      id,
+      username,
+      email,
+      dateOfBirth,
+      weight,
+      height,
+      gender,
+    },
+  });
 }
 
 export async function updateProfile(

@@ -38,10 +38,19 @@ describe("Auth Store", () => {
     expect(authStore.isInitialized).toBe(true);
   });
 
-  it("should call API and redirect on signup", async () => {
-    const mockUser = { id: 1, email: "test@example.com" };
-    vi.mocked(axiosInstance.post).mockResolvedValueOnce({});
-    vi.mocked(axiosInstance.get).mockResolvedValueOnce({ data: mockUser });
+  it("should call API and set user data on signup", async () => {
+    const mockUser = {
+      id: 1,
+      email: "test@example.com",
+      username: "Test Name",
+      dateOfBirth: null,
+      weight: null,
+      height: null,
+      gender: null,
+    };
+    vi.mocked(axiosInstance.post).mockResolvedValueOnce({
+      data: { user: mockUser },
+    });
     const authStore = useAuthStore();
 
     await authStore.signup("testuser", "test@example.com", "Password123!");
@@ -54,10 +63,19 @@ describe("Auth Store", () => {
     expect(authStore.user).toEqual(mockUser);
   });
 
-  it("should call API and redirect on login", async () => {
-    const mockUser = { id: 1, email: "test@example.com" };
-    vi.mocked(axiosInstance.post).mockResolvedValueOnce({});
-    vi.mocked(axiosInstance.get).mockResolvedValueOnce({ data: mockUser });
+  it("should call API and set user data on login", async () => {
+    const mockUser = {
+      id: 1,
+      email: "test@example.com",
+      username: "Test Name",
+      dateOfBirth: new Date(),
+      weight: 123.45,
+      height: 123.45,
+      gender: null,
+    };
+    vi.mocked(axiosInstance.post).mockResolvedValueOnce({
+      data: { user: mockUser },
+    });
     const authStore = useAuthStore();
 
     await authStore.login("test@example.com", "Password123!");
