@@ -57,10 +57,19 @@ export async function register(req: Request, res: Response): Promise<void> {
 
     res.status(201).json({
       message: "Registration successful",
+      user: {
+        id: newUser.id,
+        username: newUser.username,
+        email: newUser.email,
+        dateOfBirth: newUser.dateOfBirth,
+        weight: newUser.weight,
+        height: newUser.height,
+        gender: newUser.gender,
+      },
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error });
   }
 }
 
@@ -95,10 +104,19 @@ export async function login(req: Request, res: Response): Promise<void> {
 
     res.status(200).json({
       message: "Login successful",
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        dateOfBirth: user.dateOfBirth,
+        weight: user.weight,
+        height: user.height,
+        gender: user.gender,
+      },
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error });
   }
 }
 
@@ -116,6 +134,6 @@ export async function logout(req: Request, res: Response) {
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error });
   }
 }
