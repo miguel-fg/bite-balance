@@ -8,12 +8,12 @@ import {
   GOOGLE_CLIENT_SECRET,
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
-} from "src/config";
+} from "../config";
 import {
   generateSessionToken,
   createSession,
   setSessionTokenCookie,
-} from "src/services/session";
+} from "../services/session";
 
 const github = new GitHub(
   GITHUB_CLIENT_ID,
